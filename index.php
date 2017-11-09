@@ -45,9 +45,9 @@ function CheckProfileFits($payload, $profileTrigger, $hash)
 foreach ($SynoGitSync_Profile as $profName => $prof)
 {
   $checkRes = CheckProfileFits($payload, $prof['On'], $PushKey);
-  if (!(is_bool($checkRes) && $checkRes))
+  if (true !== $checkRes))
   {
-    echo 'profile '.$profName.' is dropped by ['.implode(', ', $checkRes).'].';
+    echo 'profile '.$profName.' is skipped by ['.implode(', ', $checkRes).'].';
     continue;
   }
     
