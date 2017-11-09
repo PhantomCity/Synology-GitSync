@@ -33,6 +33,6 @@ $SynoGitSync_Profile['SynoProject/AnyName'] = $SynoProject; // сохранен�
 
 ## TODO
 - [ ] [Не работает верификация X_HUB_SIGNATURE](https://github.com/PhantomCity/Synology-GitSync/issues/2) так ни один пример и не заработал
-- [ ] [Сломалось бекапирование](https://github.com/PhantomCity/Synology-GitSync/issues/1) пока добавлял пораметр ['Backup'], сломалось :( 
+- [x] [Сломалось бекапирование](https://github.com/PhantomCity/Synology-GitSync/issues/1) пока добавлял пораметр ['Backup'], сломалось :( 
 
 За основу взят [@dintel/php-github-webhook](https://github.com/dintel/php-github-webhook)
