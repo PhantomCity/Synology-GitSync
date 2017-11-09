@@ -23,8 +23,8 @@ function CheckProfileFits($payload, $profileTrigger, $hash)
   {
     $flag = true;
     if ('Master-KEY' == $k)     $flag = $verify === hash_hmac($algo, $payloadRaw, $v); // Doesn't work. at all :(
-    if ('branch' == $k)         $flag = $v === $payload['ref'];
-    if ('repo_full_name' == $k) $flag = $v === $payload['repository']['full_name'];
+    if ('branch' == $k)         $flag = 'refs/heads/' .$v ===  $payload['ref'];
+    if ('repo_full_name' == $k) $flag = $v === $payload['repository']['full_name'];    
     if ('authors' == $k)        $flag = in_array($payload['head_commit']['author']['username'], $v);
     
     if (!$flag) $failOn[] = $k;
@@ -52,7 +52,7 @@ foreach ($SynoGitSync_Profile as $profName => $prof)
   $tempZip = $tempFN.'.zip';
   
   $projName = $payload['repository']['name'];
-  $aBranch = $payload['repository']['master_branch'];
+  $aBranch =  $prof['On']['branch'] ; //$payload['repository']['master_branch'];
   $GitUrl = $payload['repository']['url'] . '/archive/' . $aBranch . '.zip';
 
   if (copy($GitUrl, $tempZip))
