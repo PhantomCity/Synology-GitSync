@@ -30,7 +30,7 @@ function CheckProfileFits($payload, $profileTrigger, $hash)
     if ('repo_full_name' == $k)
       $flag = $v === $payload['repository']['full_name'];
     if ('authors' == $k)
-      $flag = in_array($payload['head_commit']['author'], $v);
+      $flag = in_array($payload['head_commit']['author']['name'], $v);
     
     $res &= $flag;
     if (!$flag) $failOn[] = $k;
