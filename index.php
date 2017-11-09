@@ -19,7 +19,6 @@ function CheckProfileFits($payload, $profileTrigger, $hash)
     return false;
   list($algo, $verify) = explode('=', $hash);
   
-  $res = true;
   foreach ($profileTrigger as $k=>$v)
   {
     $flag = true;
@@ -28,10 +27,8 @@ function CheckProfileFits($payload, $profileTrigger, $hash)
     if ('repo_full_name' == $k) $flag = $v === $payload['repository']['full_name'];
     if ('authors' == $k)        $flag = in_array($payload['head_commit']['author']['username'], $v);
     
-    $res &= $flag;
     if (!$flag) $failOn[] = $k;
   }
-  
   return $failOn;
 }
 
@@ -39,6 +36,11 @@ function CheckProfileFits($payload, $profileTrigger, $hash)
 foreach ($SynoGitSync_Profile as $profName => $prof)
 {
   $checkRes = CheckProfileFits($payload, $prof['On'], $PushKey);
+  if (!$checkRes)
+  {
+    echo 'profile '.$profName.' is skipped by ['.$checkRes.'].'."\n";
+    continue;    
+  }
   if (is_array($checkRes) && (count($checkRes) > 0))
   {
     echo 'profile '.$profName.' is skipped by ['.implode(', ', $checkRes).'].'."\n";
