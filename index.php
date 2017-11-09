@@ -22,24 +22,18 @@ function CheckProfileFits($payload, $profileTrigger, $hash)
   $res = true;
   foreach ($profileTrigger as $k=>$v)
   {
+    $flag = true;
     if ('!Master-KEY' == $k)
-    {
       $flag = $verify === hash_hmac($algo, $payloadRaw, $v); // Doesn't work. at all :(
-    }
     if ('branch' == $k)
-    {
       $flag = $v === $payload['ref'];
-    }
     if ('repo_full_name' == $k)
-    {
       $flag = $v === $payload['repository']['full_name'];
-    }
     if ('authors' == $k)
-    {
       $flag = in_array($payload['head_commit']['author'], $v);
-    }
+    
     $res &= $flag;
-    if (!$flag) $failOn[]=$k;
+    if (!$flag) $failOn[] = $k;
   }
   if ($res)
     return $res;
