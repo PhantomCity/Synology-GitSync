@@ -47,7 +47,7 @@ foreach ($SynoGitSync_Profile as $profName => $prof)
   $checkRes = CheckProfileFits($payload, $prof['On'], $PushKey);
   if (!(is_bool($checkRes) && $checkRes))
   {
-    echo 'profile '.$prof.' is dropped by ['.implode(', ', $checkRes).'].';
+    echo 'profile '.$profName.' is dropped by ['.implode(', ', $checkRes).'].';
     continue;
   }
     
