@@ -20,7 +20,8 @@ $SynoProject['TargetBase'] = '/var/services/web/'; // путь к проекту
 $SynoProject['Backup'] = '/var/services/homes/web/'; // куда складывать бекапы перед синхронизацией
 $SynoProject['On']['repo_full_name'] = 'PhantomCity/Synology-GitSync'; //полное имя проекта в GitHub;
 $SynoProject['On']['!Master-KEY'] = ключ; // по нему не могу настроить верификацию, что опасно;
-$SynoProject['On']['branch'] = 'refs/heads/master'; // имя ветки, при обновлении которой забрать исходники
+$SynoProject['On']['branch'] = 'master'; // имя ветки, при обновлении которой забрать исходники
+$SynoProject['On']['authors'] = array('Подтверждённые пользователи'); // имя пользователей, от которых пуши доверенные
 $SynoGitSync_Profile['SynoProject/AnyName'] = $SynoProject; // сохранение профиля для синхронизации
 ?>
 ```
