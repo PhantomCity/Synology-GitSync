@@ -45,12 +45,11 @@ function CheckProfileFits($payload, $profileTrigger, $hash)
 foreach ($SynoGitSync_Profile as $profName => $prof)
 {
   $checkRes = CheckProfileFits($payload, $prof['On'], $PushKey);
-  if (true !== $checkRes)
+  if (is_array($checkRes) && (count($checkRes) > 0))
   {
-    echo 'profile '.$profName.' is skipped by ['.implode(', ', $checkRes).'].';
+    echo 'profile '.$profName.' is skipped by ['.implode(', ', $checkRes).'].'."\n";
     continue;
-  }
-    
+  }    
 
   echo "Profile Fits: ".$profName."\n";
   $tempFN = md5(time());
