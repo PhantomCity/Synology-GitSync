@@ -35,7 +35,7 @@ function CheckProfileFits($payload, $profileTrigger, $hash)
     $res &= $flag;
     if (!$flag) $failOn[] = $k;
   }
-  if ($res)
+  if (true === $res)
     return $res;
   else
     return $failOn;
