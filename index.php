@@ -23,7 +23,7 @@ function CheckProfileFits($payload, $profileTrigger, $hash)
   foreach ($profileTrigger as $k=>$v)
   {
     $flag = true;
-    if ('!Master-KEY' == $k)
+    if ('Master-KEY' == $k)
       $flag = $verify === hash_hmac($algo, $payloadRaw, $v); // Doesn't work. at all :(
     if ('branch' == $k)
       $flag = $v === $payload['ref'];
