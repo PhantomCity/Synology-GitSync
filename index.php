@@ -12,6 +12,7 @@ $PushKey = $_SERVER['HTTP_X_HUB_SIGNATURE'];
 
 function CheckProfileFits($payload, $profileTrigger, $hash)
 {
+  $failOn = [];
   if (!isset($profileTrigger))
     return false;
   if (!isset($payload))
@@ -21,18 +22,42 @@ function CheckProfileFits($payload, $profileTrigger, $hash)
   $res = true;
   foreach ($profileTrigger as $k=>$v)
   {
-    if ('!Master-KEY' == $k)      $res &= $verify === hash_hmac($algo, $payloadRaw, $v); // Doesn't work. at all :(
-    if ('branch' == $k)          $res &= $v === $payload['ref'];
-    if ('repo_full_name' == $k)  $res &= $v === $payload['repository']['full_name'];
-    if ('authors' == $k)         $res &= in_array($payload['head_commit']['author'], $v);
+    if ('!Master-KEY' == $k)
+    {
+      $flag = $verify === hash_hmac($algo, $payloadRaw, $v); // Doesn't work. at all :(
+    }
+    if ('branch' == $k)
+    {
+      $flag = $v === $payload['ref'];
+    }
+    if ('repo_full_name' == $k)
+    {
+      $flag = $v === $payload['repository']['full_name'];
+    }
+    if ('authors' == $k)
+    {
+      $flag = in_array($payload['head_commit']['author'], $v);
+    }
+    $res &= $flag;
+    if (!$flag) $failOn[]=$k;
   }
-  return $res;
+  if ($res)
+    return $res;
+  else
+    return $failOn;
 }
 
 
 foreach ($SynoGitSync_Profile as $profName => $prof)
-if (CheckProfileFits($payload, $prof['On'], $PushKey))
 {
+  $checkRes = CheckProfileFits($payload, $prof['On'], $PushKey);
+  if (!(is_bool($checkRes) && $checkRes))
+  {
+    echo 'profile '.$prof.' is dropped by ['.implode(', ', $checkRes).'].';
+    continue;
+  }
+    
+
   echo "Profile Fits: ".$profName."\n";
   $tempFN = md5(time());
   $tempZip = $tempFN.'.zip';
