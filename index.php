@@ -26,7 +26,7 @@ function CheckProfileFits($payload, $profileTrigger, $hash)
     if ('Master-KEY' == $k)     $flag = $verify === hash_hmac($algo, $payloadRaw, $v); // Doesn't work. at all :(
     if ('branch' == $k)         $flag = $v === $payload['ref'];
     if ('repo_full_name' == $k) $flag = $v === $payload['repository']['full_name'];
-    if ('authors' == $k)        $flag = in_array($payload['head_commit']['author']['name'], $v);
+    if ('authors' == $k)        $flag = in_array($payload['head_commit']['author']['username'], $v);
     
     $res &= $flag;
     if (!$flag) $failOn[] = $k;
